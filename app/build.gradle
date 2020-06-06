@@ -43,6 +43,15 @@ android {
     androidExtensions {
         experimental = true
     }
+
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 dependencies {
@@ -63,6 +72,7 @@ dependencies {
 
     // Core with Ktx
     implementation "androidx.core:core-ktx:$version_core"
+    implementation "androidx.fragment:fragment-ktx:$version_fragment"
 
     //Moshi
     implementation "com.squareup.moshi:moshi:$version_moshi"
