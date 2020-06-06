@@ -17,17 +17,21 @@
 
 package com.example.android.marsrealestate
 
+import android.view.View
 import android.widget.ImageView
 import androidx.core.net.toUri
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.android.marsrealestate.network.MarsProperty
+import com.example.android.marsrealestate.overview.MarsApiStatus
 import com.example.android.marsrealestate.overview.PhotoGridAdapter
 
 @BindingAdapter("imageUrl")
-fun ImageView.bind(imgUrl: String?) {
+fun ImageView.bindUrl(imgUrl: String?) {
     imgUrl?.let {
         val imgUri = imgUrl.toUri().buildUpon().scheme("https").build()
         Glide.with(this.context)
@@ -46,4 +50,21 @@ fun ImageView.bind(imgUrl: String?) {
 @BindingAdapter("listData")
 fun RecyclerView.bind(data: List<MarsProperty>?) {
     (this.adapter as? PhotoGridAdapter)?.submitList(data)
+}
+
+@BindingAdapter("marsApiStatus")
+fun ImageView.bindStatus(status: MarsApiStatus?) {
+    when (status) {
+        MarsApiStatus.LOADING -> {
+            isVisible = true
+            setImageResource(R.drawable.loading_animation)
+        }
+        MarsApiStatus.ERROR -> {
+            isVisible = true
+            setImageResource(R.drawable.ic_connection_error)
+        }
+        MarsApiStatus.DONE -> {
+            isVisible = false
+        }
+    }
 }
