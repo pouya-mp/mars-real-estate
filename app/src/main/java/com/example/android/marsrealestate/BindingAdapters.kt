@@ -17,10 +17,9 @@
 
 package com.example.android.marsrealestate
 
-import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.net.toUri
-import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -35,13 +34,13 @@ fun ImageView.bindUrl(imgUrl: String?) {
     imgUrl?.let {
         val imgUri = imgUrl.toUri().buildUpon().scheme("https").build()
         Glide.with(this.context)
-            .load(imgUri)
-            .apply(
-                RequestOptions()
-                    .placeholder(R.drawable.loading_animation)
-                    .error(R.drawable.ic_broken_image)
-            )
-            .into(this)
+                .load(imgUri)
+                .apply(
+                        RequestOptions()
+                                .placeholder(R.drawable.loading_animation)
+                                .error(R.drawable.ic_broken_image)
+                )
+                .into(this)
     } ?: run {
         this.setImageDrawable(null)
     }
@@ -66,5 +65,14 @@ fun ImageView.bindStatus(status: MarsApiStatus?) {
         MarsApiStatus.DONE -> {
             isVisible = false
         }
+    }
+}
+
+@BindingAdapter("isRental")
+fun TextView.isRental(marsPropertyType: String) {
+    text = if (marsPropertyType == "buy") {
+        context.getString(R.string.sale)
+    } else {
+        context.getString(R.string.rent)
     }
 }
