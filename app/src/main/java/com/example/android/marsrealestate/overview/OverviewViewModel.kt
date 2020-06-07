@@ -65,4 +65,21 @@ class OverviewViewModel : ViewModel() {
             }
         }
     }
+
+    private fun applyFilter(filter: MarsApiFilter) {
+        getMarsRealEstateProperties(filter)
+    }
+
+    fun onRentClicked() {
+        applyFilter(MarsApiFilter.FOR_RENT_PROPERTIES)
+    }
+
+    fun onBuyClicked() {
+        applyFilter(MarsApiFilter.FOR_SALE_PROPERTIES)
+    }
+
+    fun onShowAllClicked() {
+        applyFilter(MarsApiFilter.ALL_PROPERTIES)
+    }
+
 }

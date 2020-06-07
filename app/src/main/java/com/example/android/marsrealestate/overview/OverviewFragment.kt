@@ -63,4 +63,14 @@ class OverviewFragment : Fragment() {
         inflater.inflate(R.menu.overflow_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.show_all_menu -> viewModel.onShowAllClicked()
+            R.id.show_buy_menu -> viewModel.onBuyClicked()
+            R.id.show_rent_menu -> viewModel.onRentClicked()
+        }
+
+        return true
+    }
 }
