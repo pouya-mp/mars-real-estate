@@ -45,10 +45,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
             android:padding="10dp"
             android:textAllCaps="true"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            android:textColor="@android:color/white"
+            android:textColor="#80FFFFFF"
+
             android:textSize="26sp"
             android:textStyle="bold"
             app:isRental="@{property.type}" />

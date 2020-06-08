@@ -52,13 +52,14 @@ class OverviewFragment : Fragment() {
         binding.viewModel = viewModel
 
         binding.photosGrid.adapter = PhotoGridAdapter()
-        binding.swipeToRefresh.setOnRefreshListener {
+        binding.swipeToRefreshLayout.setOnRefreshListener {
             viewModel.refreshProperties()
         }
 
+
         viewModel.doneRefreshingProperties.observe(viewLifecycleOwner, Observer {
             if (it) {
-                binding.swipeToRefresh.isRefreshing = false
+                binding.swipeToRefreshLayout.isRefreshing = false
             }
         })
 
