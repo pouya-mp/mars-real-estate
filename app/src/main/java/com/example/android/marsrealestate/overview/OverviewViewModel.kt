@@ -66,35 +66,27 @@ class OverviewViewModel : ViewModel() {
         }
     }
 
-    private fun applyFilter(filter: MarsApiFilter) {
-        getMarsRealEstateProperties(filter)
-    }
 
     private var propertiesFilterStatus = MarsApiFilter.ALL_PROPERTIES
 
     fun onRentClicked() {
-        applyFilter(MarsApiFilter.FOR_RENT_PROPERTIES)
+        getMarsRealEstateProperties(MarsApiFilter.FOR_RENT_PROPERTIES)
         propertiesFilterStatus = MarsApiFilter.FOR_RENT_PROPERTIES
     }
 
     fun onBuyClicked() {
-        applyFilter(MarsApiFilter.FOR_SALE_PROPERTIES)
+        getMarsRealEstateProperties(MarsApiFilter.FOR_SALE_PROPERTIES)
         propertiesFilterStatus = MarsApiFilter.FOR_SALE_PROPERTIES
     }
 
     fun onShowAllClicked() {
-        applyFilter(MarsApiFilter.ALL_PROPERTIES)
+        getMarsRealEstateProperties(MarsApiFilter.ALL_PROPERTIES)
         propertiesFilterStatus = MarsApiFilter.ALL_PROPERTIES
     }
-
-    private val _doneRefreshingProperties = MutableLiveData(false)
-    val doneRefreshingProperties: LiveData<Boolean>
-        get() = _doneRefreshingProperties
 
 
     fun refreshProperties() {
         getMarsRealEstateProperties(propertiesFilterStatus)
-        _doneRefreshingProperties.value = true
     }
 
 

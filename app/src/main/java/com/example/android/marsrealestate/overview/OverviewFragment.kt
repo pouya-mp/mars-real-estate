@@ -56,12 +56,10 @@ class OverviewFragment : Fragment() {
             viewModel.refreshProperties()
         }
 
-
-        viewModel.doneRefreshingProperties.observe(viewLifecycleOwner, Observer {
-            if (it) {
-                binding.swipeToRefreshLayout.isRefreshing = false
-            }
+        viewModel.status.observe(viewLifecycleOwner, Observer {
+            binding.swipeToRefreshLayout.isRefreshing = it != MarsApiStatus.DONE
         })
+
 
         setHasOptionsMenu(true)
         return binding.root
