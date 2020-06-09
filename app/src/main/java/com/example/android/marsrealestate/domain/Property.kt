@@ -1,6 +1,6 @@
 package com.example.android.marsrealestate.domain
 
-data class models(
+data class Property(
 
         val id: String,
         val imgSrcUrl: String,

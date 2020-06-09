@@ -17,6 +17,8 @@
 
 package com.example.android.marsrealestate.network
 
+import com.example.android.marsrealestate.database.DatabaseProperties
+import com.example.android.marsrealestate.domain.Property
 import com.squareup.moshi.Json
 
 data class MarsProperty(
@@ -25,3 +27,17 @@ data class MarsProperty(
         val type: String,
         val price: Double
 )
+
+data class MarsPropertiesContainer(val properties: List<MarsProperty>)
+
+fun MarsPropertiesContainer.asDomainModel(): List<Property> {
+    return properties.map {
+        Property(it.id, it.imgSrcUrl, it.type, it.price)
+    }
+}
+
+fun MarsPropertiesContainer.asDatabaseModel(): List<DatabaseProperties> {
+    return properties.map {
+        DatabaseProperties(it.id, it.imgSrcUrl, it.type, it.price)
+    }
+}
