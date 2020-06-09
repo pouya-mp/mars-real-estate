@@ -23,23 +23,23 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.marsrealestate.databinding.GridViewItemBinding
-import com.example.android.marsrealestate.network.MarsProperty
+import com.example.android.marsrealestate.domain.Property
 
-class PhotoGridAdapter : ListAdapter<MarsProperty, PhotoGridAdapter.ViewHolder>(DiffCallback) {
+class PhotoGridAdapter : ListAdapter<Property, PhotoGridAdapter.ViewHolder>(DiffCallback) {
 
     class ViewHolder(private var binding: GridViewItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(property: MarsProperty) {
+        fun bind(property: Property) {
             binding.property = property
             binding.executePendingBindings()
         }
     }
 
-    companion object DiffCallback : DiffUtil.ItemCallback<MarsProperty>() {
-        override fun areItemsTheSame(oldItem: MarsProperty, newItem: MarsProperty): Boolean {
+    companion object DiffCallback : DiffUtil.ItemCallback<Property>() {
+        override fun areItemsTheSame(oldItem: Property, newItem: Property): Boolean {
             return oldItem === newItem
         }
 
-        override fun areContentsTheSame(oldItem: MarsProperty, newItem: MarsProperty): Boolean {
+        override fun areContentsTheSame(oldItem: Property, newItem: Property): Boolean {
             return oldItem.id == newItem.id
         }
 

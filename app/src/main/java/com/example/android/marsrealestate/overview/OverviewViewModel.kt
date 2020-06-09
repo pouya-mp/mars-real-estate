@@ -17,13 +17,12 @@
 
 package com.example.android.marsrealestate.overview
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.android.marsrealestate.network.MarsApi
+import android.app.Application
+import androidx.lifecycle.*
+import com.example.android.marsrealestate.database.getDatabase
+import com.example.android.marsrealestate.domain.Property
 import com.example.android.marsrealestate.network.MarsApiFilter
-import com.example.android.marsrealestate.network.MarsProperty
+import com.example.android.marsrealestate.repository.PropertiesRepository
 import kotlinx.coroutines.launch
 
 enum class MarsApiStatus { LOADING, ERROR, DONE }
@@ -31,16 +30,18 @@ enum class MarsApiStatus { LOADING, ERROR, DONE }
 /**
  * The [ViewModel] that is attached to the [OverviewFragment].
  */
-class OverviewViewModel : ViewModel() {
+class OverviewViewModel(application: Application) : AndroidViewModel(application) {
+
+    private val repository = PropertiesRepository(getDatabase(application))
 
     private val _status = MutableLiveData<MarsApiStatus>()
 
     val status: LiveData<MarsApiStatus>
         get() = _status
 
-    private val _properties = MutableLiveData<List<MarsProperty>>()
-    val properties: LiveData<List<MarsProperty>>
-        get() = _properties
+
+    val properties: LiveData<List<Property>> = repository.properties
+
 
     /**
      * Call getMarsRealEstateProperties() on init so we can display status immediately.
@@ -56,12 +57,12 @@ class OverviewViewModel : ViewModel() {
         viewModelScope.launch {
             _status.value = MarsApiStatus.LOADING
             try {
-                val result = MarsApi.retrofitService.getProperties(filter.propertyType)
+                repository.refreshProperties(filter.propertyType)
                 _status.value = MarsApiStatus.DONE
-                _properties.value = result
+
             } catch (t: Throwable) {
                 _status.value = MarsApiStatus.ERROR
-                _properties.value = emptyList()
+
             }
         }
     }
@@ -89,5 +90,15 @@ class OverviewViewModel : ViewModel() {
         getMarsRealEstateProperties(propertiesFilterStatus)
     }
 
+
+    class Factory(val app: Application) : ViewModelProvider.Factory {
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(OverviewViewModel::class.java)) {
+                @Suppress("UNCHECKED_CAST")
+                return OverviewViewModel(app) as T
+            }
+            throw IllegalArgumentException("Unable to construct viewModel")
+        }
+    }
 
 }

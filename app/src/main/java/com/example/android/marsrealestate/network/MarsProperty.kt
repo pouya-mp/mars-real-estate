@@ -36,8 +36,8 @@ fun MarsPropertiesContainer.asDomainModel(): List<Property> {
     }
 }
 
-fun MarsPropertiesContainer.asDatabaseModel(): List<DatabaseProperties> {
+fun MarsPropertiesContainer.asDatabaseModel(): Array<DatabaseProperties> {
     return properties.map {
         DatabaseProperties(it.id, it.imgSrcUrl, it.type, it.price)
-    }
+    }.toTypedArray()
 }

@@ -33,7 +33,10 @@ class OverviewFragment : Fragment() {
     /**
      * Lazily initialize our [OverviewViewModel].
      */
-    private val viewModel: OverviewViewModel by viewModels()
+    private val viewModel: OverviewViewModel by viewModels(factoryProducer = {
+        OverviewViewModel.Factory(requireActivity().application)
+    })
+
 
     /**
      * Inflates the layout with Data Binding, sets its lifecycle owner to the OverviewFragment
@@ -57,7 +60,7 @@ class OverviewFragment : Fragment() {
         }
 
         viewModel.status.observe(viewLifecycleOwner, Observer {
-            binding.swipeToRefreshLayout.isRefreshing = it != MarsApiStatus.DONE
+            binding.swipeToRefreshLayout.isRefreshing = !(it == MarsApiStatus.ERROR || it == MarsApiStatus.DONE)
         })
 
 
