@@ -36,12 +36,12 @@ class OverviewViewModel(application: Application) : AndroidViewModel(application
 
     private val _status = MutableLiveData<MarsApiStatus>()
 
+    private var propertiesFilterStatus = MarsApiFilter.ALL_PROPERTIES
+
     val status: LiveData<MarsApiStatus>
         get() = _status
 
-
     val properties: LiveData<List<Property>> = repository.properties
-
 
     /**
      * Call getMarsRealEstateProperties() on init so we can display status immediately.
@@ -54,42 +54,23 @@ class OverviewViewModel(application: Application) : AndroidViewModel(application
      * Sets the value of the status LiveData to the Mars API status.
      */
     private fun getMarsRealEstateProperties(filter: MarsApiFilter) {
+        val oldValue = propertiesFilterStatus
+        propertiesFilterStatus = filter
         viewModelScope.launch {
             _status.value = MarsApiStatus.LOADING
             try {
-                repository.refreshProperties(filter.propertyType)
+                repository.refreshProperties(filter)
                 _status.value = MarsApiStatus.DONE
-
             } catch (t: Throwable) {
                 _status.value = MarsApiStatus.ERROR
-
+                propertiesFilterStatus = oldValue
             }
         }
     }
 
-
-    private var propertiesFilterStatus = MarsApiFilter.ALL_PROPERTIES
-
-    fun onRentClicked() {
-        getMarsRealEstateProperties(MarsApiFilter.FOR_RENT_PROPERTIES)
-        propertiesFilterStatus = MarsApiFilter.FOR_RENT_PROPERTIES
+    fun refreshProperties(filter: MarsApiFilter = propertiesFilterStatus) {
+        getMarsRealEstateProperties(filter)
     }
-
-    fun onBuyClicked() {
-        getMarsRealEstateProperties(MarsApiFilter.FOR_SALE_PROPERTIES)
-        propertiesFilterStatus = MarsApiFilter.FOR_SALE_PROPERTIES
-    }
-
-    fun onShowAllClicked() {
-        getMarsRealEstateProperties(MarsApiFilter.ALL_PROPERTIES)
-        propertiesFilterStatus = MarsApiFilter.ALL_PROPERTIES
-    }
-
-
-    fun refreshProperties() {
-        getMarsRealEstateProperties(propertiesFilterStatus)
-    }
-
 
     class Factory(val app: Application) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {

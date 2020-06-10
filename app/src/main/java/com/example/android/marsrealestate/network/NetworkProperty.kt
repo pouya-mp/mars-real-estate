@@ -17,27 +17,25 @@
 
 package com.example.android.marsrealestate.network
 
-import com.example.android.marsrealestate.database.DatabaseProperties
+import com.example.android.marsrealestate.database.DatabaseProperty
 import com.example.android.marsrealestate.domain.Property
 import com.squareup.moshi.Json
 
-data class MarsProperty(
-        val id: String,
-        @Json(name = "img_src") val imgSrcUrl: String,
-        val type: String,
-        val price: Double
+data class NetworkProperty(
+    val id: String,
+    @Json(name = "img_src") val imgSrcUrl: String,
+    val type: String,
+    val price: Double
 )
 
-data class MarsPropertiesContainer(val properties: List<MarsProperty>)
-
-fun MarsPropertiesContainer.asDomainModel(): List<Property> {
-    return properties.map {
+fun List<NetworkProperty>.asDomainModel(): List<Property> {
+    return map {
         Property(it.id, it.imgSrcUrl, it.type, it.price)
     }
 }
 
-fun MarsPropertiesContainer.asDatabaseModel(): Array<DatabaseProperties> {
-    return properties.map {
-        DatabaseProperties(it.id, it.imgSrcUrl, it.type, it.price)
+fun List<NetworkProperty>.asDatabaseModel(): Array<DatabaseProperty> {
+    return map {
+        DatabaseProperty(it.id, it.imgSrcUrl, it.type, it.price)
     }.toTypedArray()
 }

@@ -26,26 +26,26 @@ import retrofit2.http.Query
 
 enum class MarsApiFilter(val propertyType: String) {
     FOR_RENT_PROPERTIES("rent"),
-    FOR_SALE_PROPERTIES("buy"),
+    FOR_BUY_PROPERTIES("buy"),
     ALL_PROPERTIES("all")
 }
 
 private const val BASE_URL = "https://mars.udacity.com/"
 
 private val moshi = Moshi.Builder()
-        .add(KotlinJsonAdapterFactory())
-        .build()
+    .add(KotlinJsonAdapterFactory())
+    .build()
 
 private val retrofit = Retrofit.Builder()
-        .addConverterFactory(MoshiConverterFactory.create(moshi))
-        .baseUrl(BASE_URL)
-        .build()
+    .addConverterFactory(MoshiConverterFactory.create(moshi))
+    .baseUrl(BASE_URL)
+    .build()
 
 
 interface MarsApiService {
 
     @GET("realestate")
-    suspend fun getProperties(@Query("filter") type: String): List<MarsProperty>
+    suspend fun getProperties(@Query("filter") type: String): List<NetworkProperty>
 }
 
 object MarsApi {

@@ -17,6 +17,7 @@
 
 package com.example.android.marsrealestate
 
+import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.net.toUri
@@ -34,13 +35,13 @@ fun ImageView.bindUrl(imgUrl: String?) {
     imgUrl?.let {
         val imgUri = imgUrl.toUri().buildUpon().scheme("https").build()
         Glide.with(this.context)
-                .load(imgUri)
-                .apply(
-                        RequestOptions()
-                                .placeholder(R.drawable.loading_animation)
-                                .error(R.drawable.ic_broken_image)
-                )
-                .into(this)
+            .load(imgUri)
+            .apply(
+                RequestOptions()
+                    .placeholder(R.drawable.loading_animation)
+                    .error(R.drawable.ic_broken_image)
+            )
+            .into(this)
     } ?: run {
         this.setImageDrawable(null)
     }

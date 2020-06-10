@@ -24,6 +24,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.android.marsrealestate.R
 import com.example.android.marsrealestate.databinding.FragmentOverviewBinding
+import com.example.android.marsrealestate.network.MarsApiFilter
 
 /**
  * This fragment shows the the status of the Mars real-estate web services transaction.
@@ -43,8 +44,8 @@ class OverviewFragment : Fragment() {
      * to enable Data Binding to observe LiveData, and sets up the RecyclerView with an adapter.
      */
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentOverviewBinding.inflate(inflater)
 
@@ -60,7 +61,7 @@ class OverviewFragment : Fragment() {
         }
 
         viewModel.status.observe(viewLifecycleOwner, Observer {
-            binding.swipeToRefreshLayout.isRefreshing = !(it == MarsApiStatus.ERROR || it == MarsApiStatus.DONE)
+            binding.swipeToRefreshLayout.isRefreshing = it == MarsApiStatus.LOADING
         })
 
 
@@ -78,9 +79,9 @@ class OverviewFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.show_all_menu -> viewModel.onShowAllClicked()
-            R.id.show_buy_menu -> viewModel.onBuyClicked()
-            R.id.show_rent_menu -> viewModel.onRentClicked()
+            R.id.show_all_menu -> viewModel.refreshProperties(MarsApiFilter.ALL_PROPERTIES)
+            R.id.show_buy_menu -> viewModel.refreshProperties(MarsApiFilter.FOR_BUY_PROPERTIES)
+            R.id.show_rent_menu -> viewModel.refreshProperties(MarsApiFilter.FOR_RENT_PROPERTIES)
         }
 
         return true

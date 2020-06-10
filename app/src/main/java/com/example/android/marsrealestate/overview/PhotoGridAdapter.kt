@@ -27,7 +27,8 @@ import com.example.android.marsrealestate.domain.Property
 
 class PhotoGridAdapter : ListAdapter<Property, PhotoGridAdapter.ViewHolder>(DiffCallback) {
 
-    class ViewHolder(private var binding: GridViewItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(private var binding: GridViewItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(property: Property) {
             binding.property = property
             binding.executePendingBindings()
