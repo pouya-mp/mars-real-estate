@@ -18,7 +18,9 @@
 package com.example.android.marsrealestate.overview
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -44,8 +46,8 @@ class OverviewFragment : Fragment() {
      * to enable Data Binding to observe LiveData, and sets up the RecyclerView with an adapter.
      */
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentOverviewBinding.inflate(inflater)
 
@@ -64,27 +66,30 @@ class OverviewFragment : Fragment() {
             binding.swipeToRefreshLayout.isRefreshing = it == MarsApiStatus.LOADING
         })
 
+        binding.toolbar.setOnMenuItemClickListener {
 
-        setHasOptionsMenu(true)
+            when (it.itemId) {
+                R.id.show_all_menu -> {
+                    viewModel.refreshProperties(MarsApiFilter.ALL_PROPERTIES)
+                    true
+                }
+
+                R.id.show_buy_menu -> {
+                    viewModel.refreshProperties(MarsApiFilter.FOR_BUY_PROPERTIES)
+                    true
+                }
+
+                R.id.show_rent_menu -> {
+                    viewModel.refreshProperties(MarsApiFilter.FOR_RENT_PROPERTIES)
+                    true
+                }
+                else -> false
+            }
+
+        }
+
         return binding.root
     }
 
-    /**
-     * Inflates the overflow menu that contains filtering options.
-     */
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.overflow_menu, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.show_all_menu -> viewModel.refreshProperties(MarsApiFilter.ALL_PROPERTIES)
-            R.id.show_buy_menu -> viewModel.refreshProperties(MarsApiFilter.FOR_BUY_PROPERTIES)
-            R.id.show_rent_menu -> viewModel.refreshProperties(MarsApiFilter.FOR_RENT_PROPERTIES)
-        }
-
-        return true
-    }
 
 }
