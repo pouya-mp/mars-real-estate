@@ -19,18 +19,16 @@ package com.example.android.marsrealestate.detail
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.android.marsrealestate.network.NetworkProperty
 
 /**
  * Simple ViewModel factory that provides the MarsProperty and context to the ViewModel.
  */
 class DetailViewModelFactory(
-    private val networkProperty: NetworkProperty,
-    private val application: Application) : ViewModelProvider.Factory {
+        private val application: Application, private val propertyId: String) : ViewModelProvider.Factory {
     @Suppress("unchecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(DetailViewModel::class.java)) {
-            return DetailViewModel(networkProperty, application) as T
+            return DetailViewModel(application, propertyId) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

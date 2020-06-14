@@ -43,6 +43,10 @@ class OverviewViewModel(application: Application) : AndroidViewModel(application
 
     val properties: LiveData<List<Property>> = repository.properties
 
+    private val _navigateToPropertyDetailFragment = MutableLiveData<String>()
+    val navigateToPropertyDetailFragment: LiveData<String>
+        get() = _navigateToPropertyDetailFragment
+
     /**
      * Call getMarsRealEstateProperties() on init so we can display status immediately.
      */
@@ -70,6 +74,14 @@ class OverviewViewModel(application: Application) : AndroidViewModel(application
 
     fun refreshProperties(filter: MarsApiFilter = propertiesFilterStatus) {
         getMarsRealEstateProperties(filter)
+    }
+
+    fun onPropertyClicked(propertyId: String) {
+        _navigateToPropertyDetailFragment.value = propertyId
+    }
+
+    fun doneNavigatingToDetailFragment() {
+        _navigateToPropertyDetailFragment.value = null
     }
 
     class Factory(val app: Application) : ViewModelProvider.Factory {
