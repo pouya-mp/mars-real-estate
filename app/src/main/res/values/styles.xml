@@ -29,7 +29,6 @@
         <item name="titleTextColor">@color/overview_fragment_toolbar_color</item>
         <item name="titleTextAppearance">@style/TextAppearance.MaterialComponents.Headline6</item>
         <item name="background">@color/colorPrimaryDark</item>
-        <item name="title">@string/app_name</item>
     </style>
 
 </resources>

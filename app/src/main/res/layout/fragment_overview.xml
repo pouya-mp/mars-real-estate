@@ -40,6 +40,7 @@
             style="@style/mars_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            app:title="@string/app_name"
             app:menu="@menu/overflow_menu" />
 
 
