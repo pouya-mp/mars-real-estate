@@ -36,7 +36,7 @@
         android:orientation="vertical">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/overview_toolbar"
             style="@style/mars_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"

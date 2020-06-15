@@ -75,15 +75,9 @@ class OverviewFragment : Fragment() {
         viewModel.status.observe(viewLifecycleOwner, Observer {
             binding.swipeToRefreshLayout.isRefreshing = it == MarsApiStatus.LOADING
         })
+        
 
-//        viewModel.navigateToPropertyDetailFragment.observe(viewLifecycleOwner, Observer {
-//
-//            val action = OverviewFragmentDirections.actionShowDetail(it)
-//            findNavController().navigate(action)
-//
-//        })
-
-        binding.toolbar.setOnMenuItemClickListener {
+        binding.overviewToolbar.setOnMenuItemClickListener {
 
             when (it.itemId) {
                 R.id.show_all_menu -> {
