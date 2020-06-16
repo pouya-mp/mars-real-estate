@@ -60,9 +60,8 @@ class OverviewFragment : Fragment() {
 
         binding.photosGrid.adapter = PhotoGridAdapter(object : PhotoGridAdapter.OnClickListener {
             override fun onClick(propertyId: String) {
-                //viewModel.onPropertyClicked(propertyId)
-                val action = OverviewFragmentDirections.actionShowDetail(propertyId)
-                findNavController().navigate(action)
+                viewModel.onPropertyClicked(propertyId)
+
             }
 
         })
@@ -75,7 +74,15 @@ class OverviewFragment : Fragment() {
         viewModel.status.observe(viewLifecycleOwner, Observer {
             binding.swipeToRefreshLayout.isRefreshing = it == MarsApiStatus.LOADING
         })
-        
+
+        viewModel.shouldNavigateToPropertyDetails.observe(viewLifecycleOwner, Observer {
+            if (it.isNotEmpty()) {
+                val action = OverviewFragmentDirections.actionShowDetail(it)
+                findNavController().navigate(action)
+                viewModel.doneNavigateToPropertyDetails()
+            }
+        })
+
 
         binding.overviewToolbar.setOnMenuItemClickListener {
 

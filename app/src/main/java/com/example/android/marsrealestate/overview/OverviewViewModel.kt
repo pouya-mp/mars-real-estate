@@ -43,6 +43,10 @@ class OverviewViewModel(application: Application) : AndroidViewModel(application
 
     val properties: LiveData<List<Property>> = repository.properties
 
+    private val _shouldNavigateToPropertyDetails = MutableLiveData<String>()
+    val shouldNavigateToPropertyDetails: LiveData<String>
+        get() = _shouldNavigateToPropertyDetails
+
 
     /**
      * Call getMarsRealEstateProperties() on init so we can display status immediately.
@@ -71,6 +75,14 @@ class OverviewViewModel(application: Application) : AndroidViewModel(application
 
     fun refreshProperties(filter: MarsApiFilter = propertiesFilterStatus) {
         getMarsRealEstateProperties(filter)
+    }
+
+    fun onPropertyClicked(propertyId: String) {
+        _shouldNavigateToPropertyDetails.value = propertyId
+    }
+
+    fun doneNavigateToPropertyDetails() {
+        _shouldNavigateToPropertyDetails.value = ""
     }
 
 
