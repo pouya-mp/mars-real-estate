@@ -28,4 +28,5 @@
     <string name="sale">Sale</string>
     <string name="rent">Rent</string>
     <string name="mars_property_detail">Mars Property Details</string>
+    <string name="picture_of_selected_mars_property">picture of selected mars property</string>
 </resources>

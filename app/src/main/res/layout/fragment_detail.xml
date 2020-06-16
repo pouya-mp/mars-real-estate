@@ -37,9 +37,9 @@
             android:id="@+id/details_toolbar"
             style="@style/mars_toolbar"
             android:layout_width="match_parent"
-            app:title="@string/mars_property_detail"
+            android:layout_height="?attr/actionBarSize"
             app:navigationIcon="@drawable/ic_baseline_arrow_white_24"
-            android:layout_height="?attr/actionBarSize" />
+            app:title="@string/mars_property_detail" />
 
 
         <ScrollView
@@ -56,6 +56,7 @@
                     android:id="@+id/main_photo_image"
                     android:layout_width="0dp"
                     android:layout_height="266dp"
+                    android:contentDescription="@string/picture_of_selected_mars_property"
                     android:scaleType="centerCrop"
                     app:imageUrl="@{viewModel.property.imgSrcUrl}"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -81,11 +82,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="@{String.valueOf(viewModel.property.price)}"
                     android:textColor="#de000000"
                     android:textSize="20sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/property_type_text"
+                    app:priceFormatter="@{viewModel.property.price}"
                     tools:text="$100,000" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

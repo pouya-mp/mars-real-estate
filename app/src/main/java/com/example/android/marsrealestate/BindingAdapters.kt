@@ -17,9 +17,11 @@
 
 package com.example.android.marsrealestate
 
-import android.util.Log
+import android.icu.text.NumberFormat
+import android.os.Build
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
@@ -35,13 +37,13 @@ fun ImageView.bindUrl(imgUrl: String?) {
     imgUrl?.let {
         val imgUri = imgUrl.toUri().buildUpon().scheme("https").build()
         Glide.with(this.context)
-            .load(imgUri)
-            .apply(
-                RequestOptions()
-                    .placeholder(R.drawable.loading_animation)
-                    .error(R.drawable.ic_broken_image)
-            )
-            .into(this)
+                .load(imgUri)
+                .apply(
+                        RequestOptions()
+                                .placeholder(R.drawable.loading_animation)
+                                .error(R.drawable.ic_broken_image)
+                )
+                .into(this)
     } ?: run {
         this.setImageDrawable(null)
     }
@@ -76,4 +78,10 @@ fun TextView.isRental(marsPropertyType: String) {
     } else {
         context.getString(R.string.rent)
     }
+}
+
+@RequiresApi(Build.VERSION_CODES.N)
+@BindingAdapter("priceFormatter")
+fun TextView.priceFormatter(marsPropertyPrice: Double) {
+    text = NumberFormat.getInstance().format(marsPropertyPrice)
 }
