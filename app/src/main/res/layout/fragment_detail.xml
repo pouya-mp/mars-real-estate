@@ -37,9 +37,9 @@
             android:id="@+id/details_toolbar"
             style="@style/mars_toolbar"
             android:layout_width="match_parent"
-            app:title="@string/mars_property_detail"
+            android:layout_height="?attr/actionBarSize"
             app:navigationIcon="@drawable/ic_baseline_arrow_white_24"
-            android:layout_height="?attr/actionBarSize" />
+            app:title="@string/mars_property_detail" />
 
 
         <ScrollView
@@ -67,10 +67,10 @@
                     android:id="@+id/property_type_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="@dimen/double_spacing"
                     android:text="@{viewModel.property.type}"
                     android:textAllCaps="true"
-                    android:textColor="#de000000"
+                    android:textColor="@color/primaryTextColor"
                     android:textSize="39sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/main_photo_image"
@@ -80,9 +80,9 @@
                     android:id="@+id/price_value_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="@dimen/standard_spacing"
                     android:text="@{String.valueOf(viewModel.property.price)}"
-                    android:textColor="#de000000"
+                    android:textColor="@color/primaryTextColor"
                     android:textSize="20sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/property_type_text"

@@ -40,9 +40,8 @@
             style="@style/mars_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="@string/app_name"
-            app:menu="@menu/overflow_menu" />
-
+            app:menu="@menu/overflow_menu"
+            app:title="@string/app_name" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipe_to_refresh_layout"
@@ -54,6 +53,24 @@
                 android:layout_height="match_parent"
                 tools:context="com.example.android.marsrealestate.MainActivity">
 
+                <HorizontalScrollView
+                    android:id="@+id/horizontal_scroll_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/standard_spacing"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/chip_group"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:singleLine="true"
+                        app:singleSelection="true">
+
+                    </com.google.android.material.chip.ChipGroup>
+
+                </HorizontalScrollView>
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/photos_grid"
                     android:layout_width="0dp"
@@ -64,7 +81,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/horizontal_scroll_view"
                     app:listData="@{viewModel.properties}"
                     app:spanCount="2"
                     tools:itemCount="16"

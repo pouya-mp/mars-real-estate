@@ -36,7 +36,9 @@ class OverviewViewModel(application: Application) : AndroidViewModel(application
 
     private val _status = MutableLiveData<MarsApiStatus>()
 
-    private var propertiesFilterStatus = MarsApiFilter.ALL_PROPERTIES
+    private val _propertiesFilterStatus = MutableLiveData(MarsApiFilter.ALL_PROPERTIES)
+    val propertiesFilterStatus: LiveData<MarsApiFilter>
+        get() = _propertiesFilterStatus
 
     val status: LiveData<MarsApiStatus>
         get() = _status
@@ -55,8 +57,8 @@ class OverviewViewModel(application: Application) : AndroidViewModel(application
      * Sets the value of the status LiveData to the Mars API status.
      */
     private fun getMarsRealEstateProperties(filter: MarsApiFilter) {
-        val oldValue = propertiesFilterStatus
-        propertiesFilterStatus = filter
+        val oldValue = propertiesFilterStatus.value
+        _propertiesFilterStatus.value = filter
         viewModelScope.launch {
             _status.value = MarsApiStatus.LOADING
             try {
@@ -64,12 +66,14 @@ class OverviewViewModel(application: Application) : AndroidViewModel(application
                 _status.value = MarsApiStatus.DONE
             } catch (t: Throwable) {
                 _status.value = MarsApiStatus.ERROR
-                propertiesFilterStatus = oldValue
+                _propertiesFilterStatus.value = oldValue
             }
         }
     }
 
-    fun refreshProperties(filter: MarsApiFilter = propertiesFilterStatus) {
+    fun refreshProperties(
+        filter: MarsApiFilter = _propertiesFilterStatus.value ?: MarsApiFilter.ALL_PROPERTIES
+    ) {
         getMarsRealEstateProperties(filter)
     }
 

@@ -23,4 +23,6 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="overview_fragment_toolbar_color">#FFFFFF</color>
+
+    <color name="primaryTextColor">@android:color/black</color>
 </resources>
