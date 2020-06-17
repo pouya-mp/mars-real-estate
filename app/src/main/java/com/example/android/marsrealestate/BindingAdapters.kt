@@ -17,11 +17,9 @@
 
 package com.example.android.marsrealestate
 
-import android.icu.text.NumberFormat
-import android.os.Build
+import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
@@ -31,19 +29,21 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.android.marsrealestate.domain.Property
 import com.example.android.marsrealestate.overview.MarsApiStatus
 import com.example.android.marsrealestate.overview.PhotoGridAdapter
+import java.text.NumberFormat
+import java.util.*
 
 @BindingAdapter("imageUrl")
 fun ImageView.bindUrl(imgUrl: String?) {
     imgUrl?.let {
         val imgUri = imgUrl.toUri().buildUpon().scheme("https").build()
         Glide.with(this.context)
-                .load(imgUri)
-                .apply(
-                        RequestOptions()
-                                .placeholder(R.drawable.loading_animation)
-                                .error(R.drawable.ic_broken_image)
-                )
-                .into(this)
+            .load(imgUri)
+            .apply(
+                RequestOptions()
+                    .placeholder(R.drawable.loading_animation)
+                    .error(R.drawable.ic_broken_image)
+            )
+            .into(this)
     } ?: run {
         this.setImageDrawable(null)
     }
@@ -80,7 +80,6 @@ fun TextView.isRental(marsPropertyType: String) {
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.N)
 @BindingAdapter("priceFormatter")
 fun TextView.priceFormatter(marsPropertyPrice: Double) {
     text = NumberFormat.getInstance().format(marsPropertyPrice)
